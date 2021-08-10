@@ -115,22 +115,57 @@ function App() {
   const [correctOrElse, setCorrectOrElse] = useState(" ");
 
   const handleAnswerOptionClick = (isCorrect) => {
+    // ---Display based on answer ---
     if (isCorrect) {
       setScore(score + 1);
 
-      setCorrectOrElse(<h2 className="correct">Correct </h2>);
+      setCorrectOrElse(
+        <div className="flex ">
+          <span>Last Answer </span>
+          <h2 className="correct">Correct </h2>
+        </div>
+      );
     } else {
-      setCorrectOrElse(<h2 className="incorrect">Wrong</h2>);
+      setCorrectOrElse(
+        <div className="flex ">
+          <span>Last Answer</span>
+          <h2 className="incorrect">Wrong</h2>
+        </div>
+      );
     }
 
+    // ---Questions Updates --
+
     const nextQuestion = currentQuestion + 1;
+
     if (nextQuestion < questions.length) {
       setCurrentQuestion(nextQuestion);
-      // setCorrectOrElse(" ");
     } else {
       setShowScore(true);
+
+      if (isCorrect) {
+        setScore(score + 1);
+
+        // ------displaying last answer ---
+
+        setCorrectOrElse(
+          <div className="flex ">
+            <span>Last Answer </span>
+            <h2 className="correct">Correct </h2>
+          </div>
+        );
+      } else {
+        setCorrectOrElse(
+          <div className="flex ">
+            <span>Last Answer</span>
+            <h2 className="incorrect">Wrong</h2>
+          </div>
+        );
+      }
     }
   };
+
+  // ----reload ----
 
   const resetQuestionare = () => {
     window.location.reload();
@@ -143,6 +178,7 @@ function App() {
           <h2>
             You scored {score} out of {questions.length}
           </h2>
+          <h4>{correctOrElse}</h4>
 
           <button
             onClick={resetQuestionare}
@@ -163,7 +199,7 @@ function App() {
                 <span>Question number {currentQuestion + 1}</span>/
                 {questions.length}
               </h6>
-              <h4>{correctOrElse}</h4>
+              {/* <h4>{correctOrElse}</h4> */}
               <div className="fs-2 fw-bold mt-2 mb-2 p-2 ">
                 <h1>Q : {questions[currentQuestion].question}</h1>
               </div>
@@ -183,6 +219,7 @@ function App() {
                   )
                 )}
               </div>
+              <h4>{correctOrElse}</h4>
             </div>
           </div>
         </>
